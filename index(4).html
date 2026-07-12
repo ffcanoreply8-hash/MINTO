@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="description"
+    content="MINTO Robux Outlet — a premium digital storefront."
+  />
+
+  <title>MINTO Robux Outlet</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div class="background-grid" aria-hidden="true"></div>
+  <div class="glow glow-one" aria-hidden="true"></div>
+  <div class="glow glow-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="MINTO Robux Outlet home">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="brand-mark-core"></span>
+      </span>
+
+      <span class="brand-copy">
+        <span class="brand-name">MINTO</span>
+        <span class="brand-subtitle">ROBUX OUTLET</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary navigation">
+      <a class="nav-link active" href="#outlet">Outlet</a>
+      <a class="nav-link" href="#about">About</a>
+
+      <button class="header-button" type="button" id="menuButton">
+        <span>Explore</span>
+
+        <span class="menu-lines" aria-hidden="true">
+          <i></i>
+          <i></i>
+        </span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="outlet">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="status-dot" aria-hidden="true"></span>
+          Premium Digital Marketplace
+        </div>
+
+        <h1>
+          THE <span>MINTO</span><br />
+          ROBUX OUTLET
+        </h1>
+
+        <p class="hero-description">
+          A bold, high-end storefront built for speed, clarity and a premium
+          shopping experience.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="#productGrid">
+            Browse Outlet
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <div class="trust-note">
+            <span class="trust-icon" aria-hidden="true">◆</span>
+
+            <span>
+              <strong>81 slots</strong>
+              discounted packages
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="visual-card">
+          <div class="visual-topline">
+            <span>MINTO / 01</span>
+            <span>PREMIUM ACCESS</span>
+          </div>
+
+          <div class="floating-token token-one">
+            <span class="token-hole"></span>
+          </div>
+
+          <div class="floating-token token-two">
+            <span class="token-hole"></span>
+          </div>
+
+          <div class="visual-logo">
+            <span class="visual-logo-core"></span>
+          </div>
+
+          <div class="visual-footer">
+            <span>OUTLET SERIES</span>
+            <span class="visual-code">MNT-81</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="outlet-section" aria-labelledby="outletTitle">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">THE OUTLET</p>
+          <h2 id="outletTitle">Choose a package</h2>
+        </div>
+
+        <div class="section-meta">
+          <span id="slotCount">81 available</span>
+          <span class="meta-divider"></span>
+          <span>9 × 9 layout</span>
+        </div>
+      </div>
+
+      <div
+        class="product-grid"
+        id="productGrid"
+        aria-label="Outlet item grid"
+      ></div>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="about-label">MINTO STANDARD</div>
+
+      <div class="about-content">
+        <h2>
+          Bold by design.<br />
+          Built to feel premium.
+        </h2>
+
+        <p>
+          Every surface, shadow, interaction and spacing choice is designed to
+          make the site feel intentional, modern and expensive.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <span class="footer-mark" aria-hidden="true"></span>
+      <span>MINTO ROBUX OUTLET</span>
+    </div>
+
+    <p>Premium storefront concept.</p>
+
+    <p>© <span id="year"></span> MINTO</p>
+  </footer>
+
+  <div class="selection-panel" id="selectionPanel" aria-live="polite">
+    <div>
+      <span class="selection-label">Selected slot</span>
+      <strong id="selectedSlot">01</strong>
+    </div>
+
+    <button
+      type="button"
+      id="closePanel"
+      aria-label="Close selected slot panel"
+    >
+      ×
+    </button>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

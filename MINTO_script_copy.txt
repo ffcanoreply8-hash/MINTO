@@ -1,0 +1,195 @@
+const TOTAL_SLOTS = 81;
+
+const packages = [
+  { robux: 100, price: 0.99 },
+  { robux: 200, price: 1.49 },
+  { robux: 400, price: 2.99 },
+  { robux: 600, price: 4.49 },
+  { robux: 800, price: 5.99 },
+  { robux: 1000, price: 7.49 },
+  { robux: 1200, price: 8.99 },
+  { robux: 1700, price: 11.99 },
+  { robux: 2500, price: 17.99 },
+  { robux: 3500, price: 23.99 },
+  { robux: 4500, price: 29.99 },
+  { robux: 6000, price: 38.99 },
+  { robux: 8000, price: 49.99 },
+  { robux: 10000, price: 59.99 },
+  { robux: 15000, price: 84.99 },
+  { robux: 22500, price: 119.99 }
+];
+
+const grid = document.getElementById("productGrid");
+const slotCount = document.getElementById("slotCount");
+const menuButton = document.getElementById("menuButton");
+const year = document.getElementById("year");
+
+const checkoutSlot = document.getElementById("checkoutSlot");
+const checkoutProduct = document.getElementById("checkoutProduct");
+const checkoutPrice = document.getElementById("checkoutPrice");
+const summaryCode = document.getElementById("summaryCode");
+const summaryNote = document.getElementById("summaryNote");
+const checkoutForm = document.getElementById("checkoutForm");
+const checkoutMessage = document.getElementById("checkoutMessage");
+const closeCheckoutMessage = document.getElementById("closeCheckoutMessage");
+
+function formatSlot(number) {
+  return String(number).padStart(2, "0");
+}
+
+function formatRobux(amount) {
+  return new Intl.NumberFormat("en-CA").format(amount);
+}
+
+function formatPrice(price) {
+  return `$${price.toFixed(2)} CAD`;
+}
+
+function getPackage(slotNumber) {
+  return packages[slotNumber - 1] || null;
+}
+
+function openCheckout(slotNumber) {
+  const checkoutUrl = new URL("./checkout.html", window.location.href);
+  checkoutUrl.searchParams.set("slot", String(slotNumber));
+  window.location.assign(checkoutUrl.href);
+}
+
+function createSlotButton(slotNumber) {
+  const product = getPackage(slotNumber);
+  const button = document.createElement("button");
+
+  button.type = "button";
+  button.className = product ? "slot-button package-slot" : "slot-button";
+  button.dataset.slot = String(slotNumber);
+  button.setAttribute("aria-label", `Open outlet slot ${formatSlot(slotNumber)}`);
+
+  if (product) {
+    button.innerHTML = `
+      <span class="slot-number">${formatSlot(slotNumber)}</span>
+      <span class="slot-icon" aria-hidden="true"></span>
+      <span class="slot-label">
+        <strong>${formatRobux(product.robux)} R$</strong>
+        <small>${formatPrice(product.price)}</small>
+      </span>
+    `;
+  } else {
+    button.innerHTML = `
+      <span class="slot-number">${formatSlot(slotNumber)}</span>
+      <span class="slot-icon" aria-hidden="true"></span>
+      <span class="slot-label">
+        <strong>Coming soon</strong>
+        <small>Future package</small>
+      </span>
+    `;
+  }
+
+  button.addEventListener("click", () => openCheckout(slotNumber));
+  return button;
+}
+
+function renderGrid() {
+  if (!grid) return;
+
+  const fragment = document.createDocumentFragment();
+
+  for (let slot = 1; slot <= TOTAL_SLOTS; slot += 1) {
+    fragment.appendChild(createSlotButton(slot));
+  }
+
+  grid.replaceChildren(fragment);
+
+  if (slotCount) {
+    slotCount.textContent = `${TOTAL_SLOTS} available`;
+  }
+}
+
+function loadCheckout() {
+  if (!checkoutSlot) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const requestedSlot = Number(params.get("slot"));
+
+  const slotNumber =
+    Number.isInteger(requestedSlot) &&
+    requestedSlot >= 1 &&
+    requestedSlot <= TOTAL_SLOTS
+      ? requestedSlot
+      : 1;
+
+  const product = getPackage(slotNumber);
+
+  checkoutSlot.textContent = formatSlot(slotNumber);
+
+  if (summaryCode) {
+    summaryCode.textContent = `MINTO / ${formatSlot(slotNumber)}`;
+  }
+
+  if (product) {
+    if (checkoutProduct) {
+      checkoutProduct.textContent = `${formatRobux(product.robux)} Robux`;
+    }
+
+    if (checkoutPrice) {
+      checkoutPrice.textContent = formatPrice(product.price);
+    }
+
+    if (summaryNote) {
+      summaryNote.textContent =
+        "Review the Roblox username carefully before continuing.";
+    }
+  } else {
+    if (checkoutProduct) checkoutProduct.textContent = "Coming soon";
+    if (checkoutPrice) checkoutPrice.textContent = "$0.00 CAD";
+
+    if (summaryNote) {
+      summaryNote.textContent =
+        "This slot is reserved for a package that can be added later.";
+    }
+  }
+}
+
+function showCheckoutMessage() {
+  checkoutMessage?.classList.add("visible");
+}
+
+function hideCheckoutMessage() {
+  checkoutMessage?.classList.remove("visible");
+}
+
+if (menuButton) {
+  menuButton.addEventListener("click", () => {
+    document.getElementById("productGrid")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+}
+
+if (checkoutForm) {
+  checkoutForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    if (!checkoutForm.checkValidity()) {
+      checkoutForm.reportValidity();
+      return;
+    }
+
+    showCheckoutMessage();
+  });
+}
+
+closeCheckoutMessage?.addEventListener("click", hideCheckoutMessage);
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    hideCheckoutMessage();
+  }
+});
+
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
+
+renderGrid();
+loadCheckout();
